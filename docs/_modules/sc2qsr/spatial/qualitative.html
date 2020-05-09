@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>sc2qsr.spatial.qualitative</title>
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          sc2qsr</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.agents</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qualitative.html">Qualitative Spatial Reasoning – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.qualitative</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quantitative.html">Quantitative Spatial Functions – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.quantitative</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rl.html">Tabular reinforcement learning algorithms – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.rl.tabular</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../unitstats.html">Unit Statistics from Liquipedia – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.unitstats</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mapinfo.html">SC2 Map Information – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.mapinfo</span></code></a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for sc2qsr.spatial.qualitative</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Qualitative Spatial Reasoning -- :mod:`sc2qsr.spatial.qualitative`</span>
+<span class="sd">******************************************************************</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">atan2</span><span class="p">,</span> <span class="n">ceil</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="k">import</span> <span class="n">Number</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+<span class="kn">from</span> <span class="nn">.quantitative</span> <span class="k">import</span> <span class="n">pol2cart</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">cdist</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">DIRECTION_IDENTITY</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">DISTANCE_IDENTITY</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># functions to convert between condensed and square matrix coordinates were taken from https://stackoverflow.com/a/36867493/1245214</span>
+
+
+<span class="k">def</span> <span class="nf">__calc_row_idx</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the column (x-coordinate) an element in position k of a condensed vector would be in its square matrix version</span>
+
+<span class="sd">    :param k: index of element in the condensed vector</span>
+<span class="sd">    :type k: int</span>
+<span class="sd">    :param n: dimension of the square matrix</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :return: x-coordinate of element k in the square matrix</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">__elem_in_x_rows</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+
+
+<span class="k">def</span> <span class="nf">__calc_col_idx</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the row (y-coordinate) an element in position k of a condensed vector would be in its square matrix version</span>
+
+<span class="sd">    :param k: index of element in the condensed vector</span>
+<span class="sd">    :type k: int</span>
+<span class="sd">    :param x: x-coordinate of element in the squre matrix (see :py:func:`__calc_row_idx`)</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param n: dimension of the square matrix</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :return: y-coordinate of element k in the square matrix</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">__elem_in_x_rows</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="condensed_to_square"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.condensed_to_square">[docs]</a><span class="k">def</span> <span class="nf">condensed_to_square</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Given the index k of an element in a condensed vector, returns its (x, y) coordinates in a corresponding square matrix. This function always returns coordinates from the lower triagular matrix (x &gt; y).</span>
+
+<span class="sd">    :param k: Index of desired element in the condensed matrix</span>
+<span class="sd">    :type k: int</span>
+<span class="sd">    :param n: dimension of the original square matrix</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :return: tuple (x, y) containing coordinates of element in a square matrix</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">__calc_row_idx</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">__calc_col_idx</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="square_to_condensed"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.square_to_condensed">[docs]</a><span class="k">def</span> <span class="nf">square_to_condensed</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns the index of an element in a condensed vector, given its (x,y) coordinates in a square matrix</span>
+
+<span class="sd">    :param x: x coordinate of element</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinate of element</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    :param n: dimension of square matrix</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :return: index of an element in the corresponding condensed vector</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;no diagonal elements in condensed matrix&quot;</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_star"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.to_star">[docs]</a><span class="k">def</span> <span class="nf">to_star</span><span class="p">(</span>
+    <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">xa</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ya</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">xb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">yb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the :math:`STAR_m` relation of point :math:`A` wrt. to point :math:`B`. In the relation :math:`A(i)B`,</span>
+
+<span class="sd">    .. math:: i = \\lfloor \\frac{\\arctan2(y_a - y_b, x_a - x_b) + \\pi}{2 \\pi} 2m \\mod 2m \\rfloor</span>
+
+<span class="sd">    :param m: granularity of the STAR calculus</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :param xa: x-coordinate of point A</span>
+<span class="sd">    :type xa: float</span>
+<span class="sd">    :param ya: y-coordinate of point A</span>
+<span class="sd">    :type ya: float</span>
+<span class="sd">    :param xb: x-coordinate of point B</span>
+<span class="sd">    :type xb: float</span>
+<span class="sd">    :param yb: y-coordinate of point B</span>
+<span class="sd">    :type yb: float</span>
+<span class="sd">    :param clockwise: whether angular sectors are numbered clockwise, defaults to False</span>
+<span class="sd">    :type clockwise: bool, optional</span>
+<span class="sd">    :return: STAR relation of point A wrt. to point B</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">xa</span> <span class="o">-</span> <span class="n">xb</span><span class="p">,</span> <span class="n">ya</span> <span class="o">-</span> <span class="n">yb</span>
+
+    <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DIRECTION_IDENTITY</span>
+
+    <span class="c1"># atan2(ya - yb, xa - xb) = angle of A wrt. to B</span>
+    <span class="c1"># add pi to make the result between 0 and 2 pi</span>
+    <span class="c1"># divide by 2 pi to normalize angle from radians to [0; 1] interval</span>
+    <span class="c1"># multiply by 2m, the number of angular sectors</span>
+    <span class="c1"># mod (2m) to make the result &lt; 2m</span>
+    <span class="c1"># floor the result to transform the real result into the integer value related to the index of the angular STAR sector</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">floor</span><span class="p">((((</span><span class="n">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">))</span>
+
+    <span class="c1"># deal with both clockwise and anticlockwise sector numbering</span>
+    <span class="k">return</span> <span class="n">i</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">clockwise</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="inverse"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.inverse">[docs]</a><span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the inverse of a relation on a :math:`STAR_m` calculus</span>
+
+<span class="sd">    :param i: a relation</span>
+<span class="sd">    :type i: int</span>
+<span class="sd">    :param m: granularity of the STAR calculus</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :return: the inverse of i</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__validate_directions</span><span class="p">([</span><span class="n">i</span><span class="p">],</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="boundary_distance"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.boundary_distance">[docs]</a><span class="k">def</span> <span class="nf">boundary_distance</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">elv</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the distance of the boundaries to an elevated origin point</span>
+
+<span class="sd">    :param i: index of the boundary of interest</span>
+<span class="sd">    :type i: int</span>
+<span class="sd">    :param elv: elevation of the point</span>
+<span class="sd">    :type elv: float</span>
+<span class="sd">    :param n: distance granularity</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :raises ValueError: if i is not even, it means it is not a boundary, but a sector, which is bounded by boundaries i - 1 and i + 1</span>
+<span class="sd">    :return: Distance of boundary i to the origin point</span>
+<span class="sd">    :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;Region index </span><span class="si">{}</span><span class="s1"> is either greater than 2n (</span><span class="si">{}</span><span class="s1">) or less than 0&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;region i is not a boundary (i must be even)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">elv</span> <span class="o">/</span> <span class="n">n</span>
+    <span class="k">elif</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">elv</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">b</span></div>
+
+
+<div class="viewcode-block" id="to_qdist"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.to_qdist">[docs]</a><span class="k">def</span> <span class="nf">to_qdist</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Converts a quantitative distance to qualitative (boundary or sector)</span>
+
+<span class="sd">    :param d: quantitative distance from the elevated point</span>
+<span class="sd">    :type d: float</span>
+<span class="sd">    :param elevation: elevation of point</span>
+<span class="sd">    :type elevation: float</span>
+<span class="sd">    :param n: distance granularity</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :return: index of the qualitative distance region at distance d</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;quantitative distance must not be negative&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">elevation</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;elevation must not less than or equal to 0&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+        <span class="c1"># i % 2 == 0 means the current region is a boundary</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">==</span> <span class="n">boundary_distance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">i</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">boundary_distance</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span>
+                                              <span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">boundary_distance</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">i</span></div>
+
+
+<span class="k">def</span> <span class="nf">generate_qualitative_configuration</span><span class="p">(</span>
+    <span class="n">entities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">elevations</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either m or n must be informed&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">elevations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">elevations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;Both n and elevations must be informed in order to calculate elevated distances&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">quali_dists</span> <span class="o">=</span> <span class="n">generate_qualitative_distances</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">elevations</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">quali_dirs</span> <span class="o">=</span> <span class="n">generate_qualitative_directions</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">quali_dirs</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">quali_dists</span>
+
+    <span class="k">return</span> <span class="n">quali_dirs</span><span class="p">,</span> <span class="n">quali_dists</span>
+
+
+<div class="viewcode-block" id="generate_qualitative_directions"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.generate_qualitative_directions">[docs]</a><span class="k">def</span> <span class="nf">generate_qualitative_directions</span><span class="p">(</span><span class="n">entities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Creates a condensed vector of qualitative spatial relations of direction between entities</span>
+
+<span class="sd">    :param entities: an n x 2 array, where n is the number of entities and the columns represent the (x, y) doordinates of each entity</span>
+<span class="sd">    :type entities: numpy.ndarray</span>
+<span class="sd">    :param m: granularity parameter, m &gt;= 2</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :return: a condensed vector of qualitative spatial directions between all entities</span>
+<span class="sd">    :rtype: numpy.ndarray</span>
+
+<span class="sd">    .. tip:: Take a look at :func:`sc2qsr.spatial.qualitative.square_to_condensed` for how to convert :math:`(x, y)` coordinates into an ordinary square matrix into an index :math:`k`, where the direction of element :math:`y` w.r.t. element :math:`x` is stored in the condensed vector.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;the direction granularity parameter must be &gt;= 2&#39;</span><span class="p">)</span>
+
+    <span class="n">n_entities</span> <span class="o">=</span> <span class="n">entities</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">quali_dirs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">int</span><span class="p">((</span><span class="n">n_entities</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">n_entities</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">q_vector_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_entities</span><span class="p">):</span>
+        <span class="c1"># the very last entity is already processed, so we bail out</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">n_entities</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_entities</span><span class="p">):</span>
+            <span class="n">q_vector_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">quali_dirs</span><span class="p">[</span><span class="n">q_vector_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_star</span><span class="p">(</span>
+                <span class="n">m</span><span class="p">,</span> <span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">entities</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">entities</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">quali_dirs</span></div>
+
+
+<span class="k">def</span> <span class="nf">generate_qualitative_distances</span><span class="p">(</span><span class="n">entities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">elevations</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;the distance granularity parameter must be &gt;= 2&#39;</span><span class="p">)</span>
+
+    <span class="n">n_entities</span> <span class="o">=</span> <span class="n">entities</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># if an integer is passed as elevation, a list is created with redundant values for all entities</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elevations</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+        <span class="n">elevations</span> <span class="o">=</span> <span class="p">[</span><span class="n">elevations</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_entities</span>
+
+    <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">elevations</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;There are elevation values &lt;= 0&#39;</span><span class="p">)</span>
+
+    <span class="n">quali_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_entities</span><span class="p">,</span> <span class="n">n_entities</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">quant_dists</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>
+
+    <span class="c1"># initialize the diagonal with the identity</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">quali_dists</span><span class="p">,</span> <span class="n">DISTANCE_IDENTITY</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_entities</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_entities</span><span class="p">):</span>
+            <span class="n">quant_dist</span> <span class="o">=</span> <span class="n">quant_dists</span><span class="p">[</span><span class="n">square_to_condensed</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">n_entities</span><span class="p">)]</span>
+
+            <span class="n">quali_dists</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_qdist</span><span class="p">(</span><span class="n">quant_dist</span><span class="p">,</span> <span class="n">elevations</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">quali_dists</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_qdist</span><span class="p">(</span><span class="n">quant_dist</span><span class="p">,</span> <span class="n">elevations</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">quali_dists</span>
+
+
+<span class="k">def</span> <span class="nf">__validate_directions</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks if a condensed qualitative direction vector is consistent with a given qualitative direction granularity parameter</span>
+
+<span class="sd">    :param qdir_vector: condensed qualitative direction vector</span>
+<span class="sd">    :type qdir_vector: numpy.ndarray</span>
+<span class="sd">    :param m: qualitative direction granularity parameter</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :raises ValueError: if the condensed vector is not consistent with the granularity parameter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">smaller</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">((</span><span class="n">qdir_vector</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">qdir_vector</span> <span class="o">!=</span> <span class="n">DIRECTION_IDENTITY</span><span class="p">)))</span>
+    <span class="n">greater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">qdir_vector</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">))</span>
+
+    <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">greater</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;There are </span><span class="si">{}</span><span class="s1"> values greater than 2m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">greater</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">smaller</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;There are &#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span>
+        <span class="n">error</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> values less than 0 and different than the direction identity value, which is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">smaller</span><span class="p">,</span> <span class="n">DIRECTION_IDENTITY</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="qdir_squareform"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.qdir_squareform">[docs]</a><span class="k">def</span> <span class="nf">qdir_squareform</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Converts a vector-form qualitative direction vector to a square-form qualitative direction matrix.</span>
+
+<span class="sd">    :param qdir_vector: condensed qualitative direction vector</span>
+<span class="sd">    :type qdir_vector: list</span>
+<span class="sd">    :param m: direction granurality parameter</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :raises ValueError: if qdir_vector has the wrong size to be transformed into a square matrix</span>
+<span class="sd">    :return: square matrix with qualitative directions in one triangular, their inverses in the opposite triangular and the identity in the diagonal</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__validate_directions</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="c1"># Grab the closest value to the square root of the number</span>
+    <span class="c1"># of elements times 2 to see if the number of elements</span>
+    <span class="c1"># is indeed a binomial coefficient.</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)))</span>
+
+    <span class="c1"># Check that v is of valid dimensions.</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">*</span> <span class="p">(</span><span class="n">dim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;Incompatible vector size. It must be a binomial coefficient n choose 2 for some integer n &gt;= 2.&#39;</span>
+        <span class="p">)</span>
+
+    <span class="n">q_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span>
+        <span class="n">dim</span><span class="p">,</span>
+        <span class="n">dim</span><span class="p">,</span>
+    <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">)):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">condensed_to_square</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="n">q_matrix</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">qdir_vector</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">q_matrix</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">inverse</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">q_matrix</span><span class="p">,</span> <span class="n">DIRECTION_IDENTITY</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">q_matrix</span></div>
+
+
+<span class="k">def</span> <span class="nf">qualitative_with_reference</span><span class="p">(</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ref</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">quant_dists</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_qdist</span><span class="p">(</span><span class="n">quant_dists</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">elevation</span><span class="p">,</span>
+                                    <span class="n">n</span><span class="p">),</span> <span class="n">to_star</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">p</span>
+
+
+<div class="viewcode-block" id="epra2pol"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.epra2pol">[docs]</a><span class="k">def</span> <span class="nf">epra2pol</span><span class="p">(</span>
+    <span class="n">qdir</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">qdist</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">clockwise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns approximate polar coordinates for a qualitative sector of direction and distance</span>
+
+<span class="sd">    :param qdir: qualitative direction</span>
+<span class="sd">    :type qdir: int</span>
+<span class="sd">    :param qdist: qualitative distance</span>
+<span class="sd">    :type qdist: int</span>
+<span class="sd">    :param m: qualitative direction granularity parameter</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :param n: qualitative distance granularity parameter</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :param elevation: elevation of the point, defaults to None</span>
+<span class="sd">    :type elevation: float, optional</span>
+<span class="sd">    :param clockwise: whether to generate coordinates in a clockwise fashion, defaults to False</span>
+<span class="sd">    :type clockwise: bool, optional</span>
+<span class="sd">    :return: a tuple containing (rho, phi), that is, distance and angle</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angular_sector_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">angular_sector_size</span> <span class="o">*</span> <span class="n">qdir</span> <span class="o">+</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">clockwise</span><span class="p">:</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">-</span> <span class="n">phi</span>
+
+    <span class="k">if</span> <span class="n">elevation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">qdist</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># qdist % 2 == 0 means the current region is a boundary</span>
+        <span class="k">if</span> <span class="n">qdist</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="n">boundary_distance</span><span class="p">(</span><span class="n">qdist</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">qdist</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">boundary_distance</span><span class="p">(</span><span class="n">qdist</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">boundary_distance</span><span class="p">(</span><span class="n">qdist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">rho</span><span class="p">,</span> <span class="n">phi</span></div>
+
+
+<div class="viewcode-block" id="epra2cart"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.epra2cart">[docs]</a><span class="k">def</span> <span class="nf">epra2cart</span><span class="p">(</span>
+    <span class="n">qdir</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">qdist</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">clockwise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns an approximate cartesian position for a qualitative sector of direction and distance</span>
+
+<span class="sd">    :param qdir: qualitative direction</span>
+<span class="sd">    :type qdir: int</span>
+<span class="sd">    :param qdist: qualitative distance</span>
+<span class="sd">    :type qdist: int</span>
+<span class="sd">    :param m: qualitative direction granularity parameter</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :param n: qualitative distance granularity parameter</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :param elevation: elevation of the point, defaults to None</span>
+<span class="sd">    :type elevation: float, optional</span>
+<span class="sd">    :param clockwise: whether to generate coordinates in a clockwise fashion, defaults to False</span>
+<span class="sd">    :type clockwise: bool, optional</span>
+<span class="sd">    :return: a tuple containing x, y coordinates</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rho</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">epra2pol</span><span class="p">(</span><span class="n">qdir</span><span class="p">,</span> <span class="n">qdist</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pol2cart</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="normalize_direction"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.normalize_direction">[docs]</a><span class="k">def</span> <span class="nf">normalize_direction</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Normalize a condensed qualitative direction vector so that the relative position between all entities does not affect its final representation. This is done by rotating all relations until the first relation in the vector equals 0.</span>
+
+<span class="sd">    :param qdir_vector: condensed qualitative direction vector</span>
+<span class="sd">    :type qdir_vector: numpy.ndarray</span>
+<span class="sd">    :param m: qualitative direction granularity parameter, &gt;= 2</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :return: a normalized version of `qdir_vector`</span>
+<span class="sd">    :rtype: numpy.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__validate_directions</span><span class="p">(</span><span class="n">qdir_vector</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="c1"># find the first value that is not the identity</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">qdir_vector</span> <span class="o">!=</span> <span class="n">DIRECTION_IDENTITY</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">qdir_vector</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="c1"># if that value is already 0, do nothing</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">qdir_vector</span>
+
+    <span class="c1"># perform the rotation in all relations, making the first non-identity relation = 0</span>
+    <span class="n">new_dirs</span> <span class="o">=</span> <span class="p">(</span><span class="n">qdir_vector</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="c1"># get all positions in the original vector that</span>
+    <span class="c1"># contained the identity and reassign them</span>
+    <span class="n">eq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">qdir_vector</span> <span class="o">==</span> <span class="n">DIRECTION_IDENTITY</span><span class="p">)</span>
+    <span class="n">new_dirs</span><span class="p">[</span><span class="n">eq</span><span class="p">]</span> <span class="o">=</span> <span class="n">DIRECTION_IDENTITY</span>
+
+    <span class="k">return</span> <span class="n">new_dirs</span></div>
+
+
+<div class="viewcode-block" id="equals_absolute_direction"><a class="viewcode-back" href="../../../qualitative.html#sc2qsr.spatial.qualitative.equals_absolute_direction">[docs]</a><span class="k">def</span> <span class="nf">equals_absolute_direction</span><span class="p">(</span><span class="n">qdv1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">qdv2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Checks if two condensed qualitative direction vectors are equivalent. This is done by normalizing both vectors and checking if they are equal afterwards.</span>
+
+<span class="sd">    :param qdv1: first condensed qualitative direction vector</span>
+<span class="sd">    :type qdv1: numpy.ndarray</span>
+<span class="sd">    :param qdv2: secondcondensed qualitative direction vector</span>
+<span class="sd">    :type qdv2: numpy.ndarray</span>
+<span class="sd">    :param m: qualitative direction granularity parameter</span>
+<span class="sd">    :type m: int</span>
+<span class="sd">    :return: True if `qdv1` and `qdv2` are equivalent, else `False`</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__validate_directions</span><span class="p">(</span><span class="n">qdv1</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">__validate_directions</span><span class="p">(</span><span class="n">qdv2</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">normalize_direction</span><span class="p">(</span><span class="n">qdv1</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="n">normalize_direction</span><span class="p">(</span><span class="n">qdv2</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span></div>
+
+
+<span class="k">def</span> <span class="nf">create_cnd_graph</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">):</span>
+        <span class="n">next_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">next_i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">):</span>
+        <span class="n">next_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">((</span><span class="n">DIRECTION_IDENTITY</span><span class="p">,</span> <span class="n">DISTANCE_IDENTITY</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">DISTANCE_IDENTITY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">next_i</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">G</span>
+
+
+<span class="k">def</span> <span class="nf">draw_cnd_graph</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mf">12.</span><span class="p">,</span> <span class="mf">12.</span><span class="p">),</span> <span class="n">clockwise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+    <span class="n">G</span> <span class="o">=</span> <span class="n">create_cnd_graph</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">)</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">positions</span><span class="p">[(</span><span class="n">DIRECTION_IDENTITY</span><span class="p">,</span> <span class="n">DISTANCE_IDENTITY</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">positions</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="n">epra2cart</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">dimensions</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">create_cnd_matrix</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2019, Douglas De Rizzo Meneghetti.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

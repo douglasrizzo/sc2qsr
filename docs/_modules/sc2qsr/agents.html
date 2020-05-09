@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>sc2qsr.agents</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          sc2qsr</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.agents</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qualitative.html">Qualitative Spatial Reasoning – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.qualitative</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quantitative.html">Quantitative Spatial Functions – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.quantitative</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rl.html">Tabular reinforcement learning algorithms – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.rl.tabular</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unitstats.html">Unit Statistics from Liquipedia – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.unitstats</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mapinfo.html">SC2 Map Information – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.mapinfo</span></code></a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for sc2qsr.agents</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Agents -- :mod:`sc2qsr.agents`</span>
+<span class="sd">******************************</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pysc2.env.environment</span> <span class="k">import</span> <span class="n">TimeStep</span>
+<span class="kn">from</span> <span class="nn">pysc2.lib</span> <span class="k">import</span> <span class="n">actions</span><span class="p">,</span> <span class="n">features</span>
+
+<span class="kn">from</span> <span class="nn">.rl</span> <span class="k">import</span> <span class="n">QLearning</span>
+<span class="kn">from</span> <span class="nn">.sc2info.unitstats</span> <span class="k">import</span> <span class="n">radius</span>
+<span class="kn">from</span> <span class="nn">.spatial</span> <span class="k">import</span> <span class="n">qualitative</span> <span class="k">as</span> <span class="n">qsr</span>
+
+
+<span class="k">class</span> <span class="nc">BaseAgent</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_oo_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_oo_state_synchronized</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_graph_state_synchronized</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">set_new_base_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_state</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_oo_state_synchronized</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_graph_state_synchronized</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_oo_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">oo_to_graph</span><span class="p">(</span><span class="n">oo_state</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">complete_graph</span><span class="p">(</span><span class="n">oo_state</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_graph_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_graph_state_synchronized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_graph_state</span> <span class="o">=</span> <span class="n">BaseAgent</span><span class="o">.</span><span class="n">oo_to_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_oo_state</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_state</span>
+
+
+<div class="viewcode-block" id="PySC2Agent"><a class="viewcode-back" href="../../agents.html#sc2qsr.agents.PySC2Agent">[docs]</a><span class="k">class</span> <span class="nc">PySC2Agent</span><span class="p">(</span><span class="n">BaseAgent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An agent that uses qualitative spatial reasoning to discretize states received by the pysc2 environment, select actions that are spatially qualitative and convert them back to pysc2 actions.</span>
+
+<span class="sd">    :param map_size: tuple containing the (x,y) dimensions of the map</span>
+<span class="sd">    :type map_size: tuple</span>
+<span class="sd">    :param m: granularity for qualitative spatial angular regions, defaults to 4</span>
+<span class="sd">    :type m: int, optional</span>
+<span class="sd">    :param n: granularity for qualitative spatial distance regions, defaults to 4</span>
+<span class="sd">    :type n: int, optional</span>
+<span class="sd">    :param alpha: learning rate, defaults to .1</span>
+<span class="sd">    :type alpha: float, optional</span>
+<span class="sd">    :param gamma: discount factor, defaults to .6</span>
+<span class="sd">    :type gamma: float, optional</span>
+<span class="sd">    :param epsilon: value for epsilon-greedy policy, defaults to .1</span>
+<span class="sd">    :type epsilon: float, optional</span>
+<span class="sd">    :param policy: what type of policy to use from ``[&#39;egreedy&#39;, &#39;boltzmann&#39;]``, defaults to &#39;egreedy&#39;</span>
+<span class="sd">    :type policy: str, optional</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_NO_ARGUMENT_ACTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;no_op&#39;</span><span class="p">]</span>
+    <span class="n">_POINT_ACTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Attack_pt&#39;</span><span class="p">,</span> <span class="s1">&#39;Move_pt&#39;</span><span class="p">]</span>
+    <span class="n">_UNIT_ACTIONS</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">map_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
+        <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="o">=.</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">policy</span><span class="o">=</span><span class="s1">&#39;egreedy&#39;</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PySC2Agent</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mapsize</span> <span class="o">=</span> <span class="n">map_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__m</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__generate_qualitative_actions</span><span class="p">()</span>
+
+        <span class="c1"># TODO check if the greek symbols actually represent that</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q_table</span> <span class="o">=</span> <span class="n">QLearning</span><span class="p">(</span>
+            <span class="n">actions</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_actions</span><span class="p">),</span>
+            <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
+            <span class="n">learning_rate</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="n">reward_decay</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span>
+            <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__action</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__previous_state</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__generate_qualitative_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># create a list of actions with no arguments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">available_actions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">action_name</span><span class="p">,</span> <span class="p">())</span> <span class="k">for</span> <span class="n">action_name</span> <span class="ow">in</span> <span class="n">PySC2Agent</span><span class="o">.</span><span class="n">_NO_ARGUMENT_ACTIONS</span>
+        <span class="p">]</span>
+
+        <span class="c1"># discretize point actions to refer to entire qualitative regions</span>
+        <span class="k">for</span> <span class="n">pa</span> <span class="ow">in</span> <span class="n">PySC2Agent</span><span class="o">.</span><span class="n">_POINT_ACTIONS</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__m</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__n</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">available_actions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pa</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+        <span class="c1"># TODO think about how to program unit actions</span>
+        <span class="c1"># pysc2_unit_actions = []</span>
+
+    <span class="k">def</span> <span class="nf">__qualitative2pysc_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit_tag</span><span class="p">,</span> <span class="n">unit_type</span><span class="p">,</span> <span class="n">unit_x</span><span class="p">,</span> <span class="n">unit_y</span><span class="p">):</span>
+        <span class="c1"># get values for m,n</span>
+        <span class="n">qdir</span><span class="p">,</span> <span class="n">qdist</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">action_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])</span>
+
+        <span class="c1"># pass necessary values to conversion function</span>
+        <span class="c1"># transform an (m, n) sector into a x, y coordinates</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">qsr</span><span class="o">.</span><span class="n">epra2cart</span><span class="p">(</span><span class="n">qdir</span><span class="p">,</span> <span class="n">qdist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n</span><span class="p">,</span> <span class="n">radius</span><span class="p">(</span><span class="n">unit_type</span><span class="p">))</span>
+
+        <span class="c1"># remove _m_n from the end of the action name</span>
+        <span class="n">act_name</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">action_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="c1"># build the action object and return it</span>
+        <span class="n">actions</span><span class="o">.</span><span class="n">RAW_FUNCTIONS</span><span class="p">[</span><span class="n">act_name</span><span class="p">](</span><span class="s2">&quot;now&quot;</span><span class="p">,</span> <span class="n">unit_tag</span><span class="p">,</span> <span class="p">(</span><span class="n">unit_x</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="n">unit_y</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="PySC2Agent.array2oneliner"><a class="viewcode-back" href="../../agents.html#sc2qsr.agents.PySC2Agent.array2oneliner">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">array2oneliner</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Converts a `numpy.ndarray` into a one-line string containing all its information</span>
+
+<span class="sd">        :param a: A 1D or 2D `numpy.ndarray`</span>
+<span class="sd">        :type a: numpy.ndarray</span>
+<span class="sd">        :return: a one-line string representation of the array</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">reps</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;\[\[ +|\]\]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>  <span class="c1"># remove double brackes from start and end of 2d array</span>
+            <span class="p">(</span><span class="s1">&#39;]</span><span class="se">\n</span><span class="s1"> +\[ +&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">),</span>  <span class="c1"># replace single brackets and newline with pipes in 2d array</span>
+            <span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">),</span>  <span class="c1"># replace newline with spaces in 1d array</span>
+            <span class="p">(</span><span class="s1">&#39;\[|\]&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">),</span>  <span class="c1"># remove remaining brackets from 1d array</span>
+            <span class="p">(</span><span class="s2">&quot;  +&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>  <span class="c1"># replace multiple spaces with a single space</span>
+        <span class="p">]</span>  <span class="c1"># noqa</span>
+
+        <span class="c1"># apply each replacement in sequence</span>
+        <span class="k">for</span> <span class="n">rep</span> <span class="ow">in</span> <span class="n">reps</span><span class="p">:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">text</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PySC2Agent.oneliner2array"><a class="viewcode-back" href="../../agents.html#sc2qsr.agents.PySC2Agent.oneliner2array">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">oneliner2array</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Converts a one-line string representation (see :func:`array2oneliner`)</span>
+<span class="sd">        of one or more numpy arrays back into their string representations</span>
+
+<span class="sd">        :param s: one-line string representation of the arrays</span>
+<span class="sd">        :type s: str</span>
+<span class="sd">        :param dtype: a function which is called to convert the value of each element in the arrays</span>
+<span class="sd">        :type dtype: function</span>
+<span class="sd">        :return: a tuple of arrays if `s` contains more than one array. Otherwise, a single array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># I didn&#39;t aim for readibility here</span>
+        <span class="c1"># first, we split the string s into multiple substrings a, representing a single 1D or 2D array</span>
+        <span class="c1"># then, we split each string a into multiple substrings l, representing a single row in the array</span>
+        <span class="c1"># then, we split each string l into multiple elements e, representing a single element</span>
+        <span class="c1"># then, we cast e to dtype</span>
+        <span class="c1"># each a is transformed into a numpy array</span>
+        <span class="c1"># e is a list all 1D or 2D arrays contained in s</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">dtype</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)])</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_elevations_by_unit_type</span><span class="p">(</span><span class="n">units</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="c1"># according to Moratz 2012, (radius / 2) is the distance</span>
+        <span class="c1"># of the second qualitative distance sector to the elevated</span>
+        <span class="c1"># point. however, in order for the first region to represent</span>
+        <span class="c1"># the actual location an entity occupies, this distance</span>
+        <span class="c1"># should be equal to the radius</span>
+        <span class="c1"># TODO I need to figure that out</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">radius</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">units</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_my_units_by_type</span><span class="p">(</span><span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">,</span> <span class="n">unit_type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">unit</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">obs</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">raw_units</span>
+            <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">unit_type</span> <span class="o">==</span> <span class="n">unit_type</span> <span class="ow">and</span> <span class="n">unit</span><span class="o">.</span><span class="n">alliance</span> <span class="o">==</span> <span class="n">features</span><span class="o">.</span><span class="n">PlayerRelative</span><span class="o">.</span><span class="n">SELF</span>
+        <span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_enemy_units_by_type</span><span class="p">(</span><span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">,</span> <span class="n">unit_type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">unit</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">obs</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">raw_units</span>
+            <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">unit_type</span> <span class="o">==</span> <span class="n">unit_type</span> <span class="ow">and</span> <span class="n">unit</span><span class="o">.</span><span class="n">alliance</span> <span class="o">==</span> <span class="n">features</span><span class="o">.</span><span class="n">PlayerRelative</span><span class="o">.</span><span class="n">ENEMY</span>
+        <span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_my_units</span><span class="p">(</span><span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">unit</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">obs</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">raw_units</span>
+            <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">alliance</span> <span class="o">==</span> <span class="n">features</span><span class="o">.</span><span class="n">PlayerRelative</span><span class="o">.</span><span class="n">SELF</span>
+        <span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_enemy_units</span><span class="p">(</span><span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">unit</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">obs</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">raw_units</span>
+            <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">alliance</span> <span class="o">==</span> <span class="n">features</span><span class="o">.</span><span class="n">PlayerRelative</span><span class="o">.</span><span class="n">ENEMY</span>
+        <span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_all_units</span><span class="p">(</span><span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obs</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">raw_units</span>
+
+    <span class="k">def</span> <span class="nf">state_from_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">):</span>
+        <span class="n">my_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_features_from_obs</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+        <span class="n">unit_types</span> <span class="o">=</span> <span class="n">my_collection</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="n">my_collection</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">elevations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elevations_by_unit_type</span><span class="p">(</span><span class="n">unit_types</span><span class="p">)</span>
+
+        <span class="n">quali_dirs</span><span class="p">,</span> <span class="n">quali_dists</span> <span class="o">=</span> <span class="n">qsr</span><span class="o">.</span><span class="n">generate_qualitative_configuration</span><span class="p">(</span>
+            <span class="n">coordinates</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n</span><span class="p">,</span> <span class="n">elevations</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array2oneliner</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">my_collection</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">quali_dists</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                                   <span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">array2oneliner</span><span class="p">(</span><span class="n">quali_dirs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">relative_state_from_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">):</span>
+        <span class="n">my_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_features_from_obs</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+        <span class="n">unit_types</span> <span class="o">=</span> <span class="n">my_collection</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="n">my_collection</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mapsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mapsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># TODO what elevation should I use for the reference?</span>
+        <span class="c1"># probably related to the map size</span>
+        <span class="c1"># remember that the goal is to transfer, so the elevation should be something</span>
+        <span class="c1"># meaningful in multiple domains</span>
+        <span class="n">elevation</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">rel_quali_config</span> <span class="o">=</span> <span class="n">qsr</span><span class="o">.</span><span class="n">qualitative_with_reference</span><span class="p">(</span>
+            <span class="n">coordinates</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">center</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array2oneliner</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">my_collection</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">rel_quali_config</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">extract_features_from_units</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">my_collection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">unit</span><span class="o">.</span><span class="n">alliance</span><span class="p">,</span> <span class="n">unit</span><span class="o">.</span><span class="n">unit_type</span><span class="p">,</span> <span class="n">unit</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">unit</span><span class="o">.</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">units</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+            <span class="n">my_collection</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">my_collection</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">extract_features_from_obs</span><span class="p">(</span><span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">PySC2Agent</span><span class="o">.</span><span class="n">get_all_units</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PySC2Agent</span><span class="o">.</span><span class="n">extract_features_from_units</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">:</span> <span class="n">TimeStep</span><span class="p">):</span>
+        <span class="c1"># The step method is the core part of our agent, it’s where all of our decision making takes place. At the</span>
+        <span class="c1"># end of every step you must return an action</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;clear&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;episode: </span><span class="si">{}</span><span class="s2">, reward: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span><span class="p">))</span>
+
+        <span class="c1"># the step method is a little weird</span>
+        <span class="c1"># first, we process the observed reward and update the Q table,</span>
+        <span class="c1"># then we select an action and apply it</span>
+
+        <span class="c1"># store the previous state and build the qualitative state representation,</span>
+        <span class="c1"># by extracting the relevant features from the observation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__previous_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_from_obs</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+        <span class="c1"># only update the Q table if we have already interacted with the environment</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__action</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q_table</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__previous_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__action</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">reward</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__state</span><span class="p">)</span>
+
+        <span class="c1"># action selection according to policy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_table</span><span class="o">.</span><span class="n">choose_action</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__state</span><span class="p">)</span>
+
+        <span class="c1"># return actions.RAW_FUNCTIONS.Build_Pylon_pt(&quot;now&quot;, probe.tag, pylon_xy)</span>
+        <span class="c1"># return actions.RAW_FUNCTIONS.Build_Gateway_pt(&quot;now&quot;, probe.tag, gateway_xy)</span>
+        <span class="c1"># return actions.RAW_FUNCTIONS.Train_Zealot_quick(&quot;now&quot;, gateway.tag)</span>
+        <span class="c1"># return actions.RAW_FUNCTIONS.Attack_pt(&quot;now&quot;, zealot.tag, (attack_x, attack_y))</span>
+        <span class="c1"># Take action</span>
+        <span class="c1"># return []</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__qualitative2pysc_action</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_actions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__action</span><span class="p">])</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">absl</span> <span class="k">import</span> <span class="n">app</span>
+    <span class="kn">from</span> <span class="nn">pysc2.env</span> <span class="k">import</span> <span class="n">run_loop</span><span class="p">,</span> <span class="n">sc2_env</span>
+    <span class="kn">from</span> <span class="nn">pysc2.lib.actions</span> <span class="k">import</span> <span class="n">ActionSpace</span>
+    <span class="kn">from</span> <span class="nn">pysc2.lib.features</span> <span class="k">import</span> <span class="n">AgentInterfaceFormat</span>
+    <span class="kn">from</span> <span class="nn">sc2qsr.sc2info.mapinfo</span> <span class="k">import</span> <span class="n">get_map_size</span>
+
+    <span class="n">map_name</span> <span class="o">=</span> <span class="s1">&#39;DefeatRoaches&#39;</span>  <span class="c1"># map name</span>
+    <span class="n">players</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">sc2_env</span><span class="o">.</span><span class="n">Agent</span><span class="p">(</span><span class="n">sc2_env</span><span class="o">.</span><span class="n">Race</span><span class="o">.</span><span class="n">terran</span><span class="p">),</span>
+        <span class="n">sc2_env</span><span class="o">.</span><span class="n">Bot</span><span class="p">(</span><span class="n">sc2_env</span><span class="o">.</span><span class="n">Race</span><span class="o">.</span><span class="n">terran</span><span class="p">,</span> <span class="n">sc2_env</span><span class="o">.</span><span class="n">Difficulty</span><span class="o">.</span><span class="n">very_easy</span><span class="p">)</span>
+    <span class="p">]</span>  <span class="c1"># list of players in the environment, at least one agent is necessary</span>
+
+    <span class="n">agent_interface_format</span> <span class="o">=</span> <span class="n">AgentInterfaceFormat</span><span class="p">(</span><span class="n">action_space</span><span class="o">=</span><span class="n">ActionSpace</span><span class="o">.</span><span class="n">RAW</span><span class="p">,</span> <span class="n">use_raw_units</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">step_mul</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1"># agent step will execute once every X step_mul, default is 8</span>
+    <span class="n">game_steps_per_episode</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># no limit for games</span>
+    <span class="n">save_replay_episodes</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">replay_dir</span> <span class="o">=</span> <span class="s1">&#39;/home/dodo/sc2qsr Replays&#39;</span>
+
+    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">unused_argv</span><span class="p">):</span>
+        <span class="n">agent</span> <span class="o">=</span> <span class="n">PySC2Agent</span><span class="p">(</span><span class="n">get_map_size</span><span class="p">(</span><span class="n">map_name</span><span class="p">))</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="c1"># to get a list of map names</span>
+                <span class="c1"># python -m pysc2.bin.map_list</span>
+                <span class="k">with</span> <span class="n">sc2_env</span><span class="o">.</span><span class="n">SC2Env</span><span class="p">(</span>
+                    <span class="n">map_name</span><span class="o">=</span><span class="n">map_name</span><span class="p">,</span>
+                    <span class="n">players</span><span class="o">=</span><span class="n">players</span><span class="p">,</span>
+                    <span class="n">agent_interface_format</span><span class="o">=</span><span class="n">agent_interface_format</span><span class="p">,</span>
+                    <span class="n">step_mul</span><span class="o">=</span><span class="n">step_mul</span><span class="p">,</span>
+                    <span class="n">game_steps_per_episode</span><span class="o">=</span><span class="n">game_steps_per_episode</span><span class="p">,</span>
+                    <span class="n">save_replay_episodes</span><span class="o">=</span><span class="n">save_replay_episodes</span><span class="p">,</span>
+                    <span class="n">replay_dir</span><span class="o">=</span><span class="n">replay_dir</span>
+                <span class="p">)</span> <span class="k">as</span> <span class="n">env</span><span class="p">:</span>
+                    <span class="n">run_loop</span><span class="o">.</span><span class="n">run_loop</span><span class="p">([</span><span class="n">agent</span><span class="p">],</span> <span class="n">env</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2019, Douglas De Rizzo Meneghetti.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

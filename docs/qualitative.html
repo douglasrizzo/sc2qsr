@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Qualitative Spatial Reasoning – sc2qsr.spatial.qualitative</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quantitative Spatial Functions – sc2qsr.spatial.quantitative" href="quantitative.html" />
+    <link rel="prev" title="Agents – sc2qsr.agents" href="agents.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          sc2qsr</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.agents</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Qualitative Spatial Reasoning – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.qualitative</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantitative.html">Quantitative Spatial Functions – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.quantitative</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">Tabular reinforcement learning algorithms – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.rl.tabular</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="unitstats.html">Unit Statistics from Liquipedia – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.unitstats</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapinfo.html">SC2 Map Information – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.mapinfo</span></code></a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Qualitative Spatial Reasoning – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.qualitative</span></code></a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="agents.html" title="Previous Chapter: Agents – sc2qsr.agents"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Agents – sc2q...</span>
+    </a>
+  </li>
+  <li>
+    <a href="quantitative.html" title="Next Chapter: Quantitative Spatial Functions – sc2qsr.spatial.quantitative"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Quantitative ... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/qualitative.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <span class="target" id="module-sc2qsr.spatial.qualitative"></span><div class="section" id="qualitative-spatial-reasoning-sc2qsr-spatial-qualitative">
+<h1>Qualitative Spatial Reasoning – <a class="reference internal" href="#module-sc2qsr.spatial.qualitative" title="sc2qsr.spatial.qualitative"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.qualitative</span></code></a><a class="headerlink" href="#qualitative-spatial-reasoning-sc2qsr-spatial-qualitative" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.boundary_distance">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">boundary_distance</code><span class="sig-paren">(</span><em class="sig-param">i: int</em>, <em class="sig-param">elv: float</em>, <em class="sig-param">n: int</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#boundary_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.boundary_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the distance of the boundaries to an elevated origin point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – index of the boundary of interest</p></li>
+<li><p><strong>elv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – elevation of the point</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – distance granularity</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if i is not even, it means it is not a boundary, but a sector, which is bounded by boundaries i - 1 and i + 1</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Distance of boundary i to the origin point</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.condensed_to_square">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">condensed_to_square</code><span class="sig-paren">(</span><em class="sig-param">k: int</em>, <em class="sig-param">n: int</em><span class="sig-paren">)</span> &#x2192; tuple<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#condensed_to_square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.condensed_to_square" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the index k of an element in a condensed vector, returns its (x, y) coordinates in a corresponding square matrix. This function always returns coordinates from the lower triagular matrix (x &gt; y).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Index of desired element in the condensed matrix</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – dimension of the original square matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple (x, y) containing coordinates of element in a square matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.epra2cart">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">epra2cart</code><span class="sig-paren">(</span><em class="sig-param">qdir: int</em>, <em class="sig-param">qdist: int</em>, <em class="sig-param">m: int</em>, <em class="sig-param">n: int</em>, <em class="sig-param">elevation: float = None</em>, <em class="sig-param">clockwise: bool = False</em><span class="sig-paren">)</span> &#x2192; tuple<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#epra2cart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.epra2cart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an approximate cartesian position for a qualitative sector of direction and distance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative direction</p></li>
+<li><p><strong>qdist</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative distance</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative direction granularity parameter</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative distance granularity parameter</p></li>
+<li><p><strong>elevation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>optional</em>) – elevation of the point, defaults to None</p></li>
+<li><p><strong>clockwise</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – whether to generate coordinates in a clockwise fashion, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple containing x, y coordinates</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.epra2pol">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">epra2pol</code><span class="sig-paren">(</span><em class="sig-param">qdir: int</em>, <em class="sig-param">qdist: int</em>, <em class="sig-param">m: int</em>, <em class="sig-param">n: int</em>, <em class="sig-param">elevation: float = None</em>, <em class="sig-param">clockwise: bool = False</em><span class="sig-paren">)</span> &#x2192; tuple<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#epra2pol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.epra2pol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns approximate polar coordinates for a qualitative sector of direction and distance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative direction</p></li>
+<li><p><strong>qdist</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative distance</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative direction granularity parameter</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative distance granularity parameter</p></li>
+<li><p><strong>elevation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>optional</em>) – elevation of the point, defaults to None</p></li>
+<li><p><strong>clockwise</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – whether to generate coordinates in a clockwise fashion, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple containing (rho, phi), that is, distance and angle</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.equals_absolute_direction">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">equals_absolute_direction</code><span class="sig-paren">(</span><em class="sig-param">qdv1: numpy.ndarray</em>, <em class="sig-param">qdv2: numpy.ndarray</em>, <em class="sig-param">m: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#equals_absolute_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.equals_absolute_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if two condensed qualitative direction vectors are equivalent. This is done by normalizing both vectors and checking if they are equal afterwards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qdv1</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – first condensed qualitative direction vector</p></li>
+<li><p><strong>qdv2</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – secondcondensed qualitative direction vector</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative direction granularity parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if <cite>qdv1</cite> and <cite>qdv2</cite> are equivalent, else <cite>False</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.generate_qualitative_directions">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">generate_qualitative_directions</code><span class="sig-paren">(</span><em class="sig-param">entities: numpy.ndarray</em>, <em class="sig-param">m: int</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#generate_qualitative_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.generate_qualitative_directions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a condensed vector of qualitative spatial relations of direction between entities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entities</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – an n x 2 array, where n is the number of entities and the columns represent the (x, y) doordinates of each entity</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – granularity parameter, m &gt;= 2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a condensed vector of qualitative spatial directions between all entities</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Take a look at <a class="reference internal" href="#sc2qsr.spatial.qualitative.square_to_condensed" title="sc2qsr.spatial.qualitative.square_to_condensed"><code class="xref py py-func docutils literal notranslate"><span class="pre">sc2qsr.spatial.qualitative.square_to_condensed()</span></code></a> for how to convert <span class="math notranslate nohighlight">\((x, y)\)</span> coordinates into an ordinary square matrix into an index <span class="math notranslate nohighlight">\(k\)</span>, where the direction of element <span class="math notranslate nohighlight">\(y\)</span> w.r.t. element <span class="math notranslate nohighlight">\(x\)</span> is stored in the condensed vector.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.inverse">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">inverse</code><span class="sig-paren">(</span><em class="sig-param">i: int</em>, <em class="sig-param">m: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#inverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the inverse of a relation on a <span class="math notranslate nohighlight">\(STAR_m\)</span> calculus</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – a relation</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – granularity of the STAR calculus</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the inverse of i</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.normalize_direction">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">normalize_direction</code><span class="sig-paren">(</span><em class="sig-param">qdir_vector: numpy.ndarray</em>, <em class="sig-param">m: int</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#normalize_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.normalize_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize a condensed qualitative direction vector so that the relative position between all entities does not affect its final representation. This is done by rotating all relations until the first relation in the vector equals 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qdir_vector</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – condensed qualitative direction vector</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – qualitative direction granularity parameter, &gt;= 2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a normalized version of <cite>qdir_vector</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.qdir_squareform">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">qdir_squareform</code><span class="sig-paren">(</span><em class="sig-param">qdir_vector: list</em>, <em class="sig-param">m: int</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#qdir_squareform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.qdir_squareform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a vector-form qualitative direction vector to a square-form qualitative direction matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qdir_vector</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – condensed qualitative direction vector</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – direction granurality parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if qdir_vector has the wrong size to be transformed into a square matrix</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>square matrix with qualitative directions in one triangular, their inverses in the opposite triangular and the identity in the diagonal</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.square_to_condensed">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">square_to_condensed</code><span class="sig-paren">(</span><em class="sig-param">x: int</em>, <em class="sig-param">y: int</em>, <em class="sig-param">n: int</em><span class="sig-paren">)</span> &#x2192; tuple<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#square_to_condensed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.square_to_condensed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the index of an element in a condensed vector, given its (x,y) coordinates in a square matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – x coordinate of element</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – y coordinate of element</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – dimension of square matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>index of an element in the corresponding condensed vector</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.to_qdist">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">to_qdist</code><span class="sig-paren">(</span><em class="sig-param">d: float</em>, <em class="sig-param">elevation: float</em>, <em class="sig-param">n: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#to_qdist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.to_qdist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a quantitative distance to qualitative (boundary or sector)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – quantitative distance from the elevated point</p></li>
+<li><p><strong>elevation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – elevation of point</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – distance granularity</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>index of the qualitative distance region at distance d</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.qualitative.to_star">
+<code class="sig-prename descclassname">sc2qsr.spatial.qualitative.</code><code class="sig-name descname">to_star</code><span class="sig-paren">(</span><em class="sig-param">m: int</em>, <em class="sig-param">xa: float</em>, <em class="sig-param">ya: float</em>, <em class="sig-param">xb: float = 0</em>, <em class="sig-param">yb: float = 0</em>, <em class="sig-param">clockwise: bool = False</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/sc2qsr/spatial/qualitative.html#to_star"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.qualitative.to_star" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the <span class="math notranslate nohighlight">\(STAR_m\)</span> relation of point <span class="math notranslate nohighlight">\(A\)</span> wrt. to point <span class="math notranslate nohighlight">\(B\)</span>. In the relation <span class="math notranslate nohighlight">\(A(i)B\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[i = \lfloor \frac{\arctan2(y_a - y_b, x_a - x_b) + \pi}{2 \pi} 2m \mod 2m \rfloor\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – granularity of the STAR calculus</p></li>
+<li><p><strong>xa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – x-coordinate of point A</p></li>
+<li><p><strong>ya</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – y-coordinate of point A</p></li>
+<li><p><strong>xb</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – x-coordinate of point B</p></li>
+<li><p><strong>yb</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – y-coordinate of point B</p></li>
+<li><p><strong>clockwise</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – whether angular sectors are numbered clockwise, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>STAR relation of point A wrt. to point B</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2019, Douglas De Rizzo Meneghetti.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Quantitative Spatial Functions – sc2qsr.spatial.quantitative</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tabular reinforcement learning algorithms – sc2qsr.rl.tabular" href="rl.html" />
+    <link rel="prev" title="Qualitative Spatial Reasoning – sc2qsr.spatial.qualitative" href="qualitative.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          sc2qsr</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.agents</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="qualitative.html">Qualitative Spatial Reasoning – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.qualitative</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quantitative Spatial Functions – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.quantitative</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">Tabular reinforcement learning algorithms – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.rl.tabular</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="unitstats.html">Unit Statistics from Liquipedia – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.unitstats</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapinfo.html">SC2 Map Information – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.sc2info.mapinfo</span></code></a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Quantitative Spatial Functions – <code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.quantitative</span></code></a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="qualitative.html" title="Previous Chapter: Qualitative Spatial Reasoning – sc2qsr.spatial.qualitative"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Qualitative S...</span>
+    </a>
+  </li>
+  <li>
+    <a href="rl.html" title="Next Chapter: Tabular reinforcement learning algorithms – sc2qsr.rl.tabular"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Tabular reinf... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/quantitative.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <span class="target" id="module-sc2qsr.spatial.quantitative"></span><div class="section" id="quantitative-spatial-functions-sc2qsr-spatial-quantitative">
+<h1>Quantitative Spatial Functions – <a class="reference internal" href="#module-sc2qsr.spatial.quantitative" title="sc2qsr.spatial.quantitative"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sc2qsr.spatial.quantitative</span></code></a><a class="headerlink" href="#quantitative-spatial-functions-sc2qsr-spatial-quantitative" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="sc2qsr.spatial.quantitative.cart2pol">
+<code class="sig-prename descclassname">sc2qsr.spatial.quantitative.</code><code class="sig-name descname">cart2pol</code><span class="sig-paren">(</span><em class="sig-param">x: float</em>, <em class="sig-param">y: float</em><span class="sig-paren">)</span> &#x2192; tuple<a class="reference internal" href="_modules/sc2qsr/spatial/quantitative.html#cart2pol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.quantitative.cart2pol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert cartesian coordinates to polar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – cartesian coordinate in the X direction</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – cartesian coordinate in the Y direction</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple containing the euclidean distance of point (x,y) and its angle in radians, w.r.t. to the origin</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sc2qsr.spatial.quantitative.pol2cart">
+<code class="sig-prename descclassname">sc2qsr.spatial.quantitative.</code><code class="sig-name descname">pol2cart</code><span class="sig-paren">(</span><em class="sig-param">rho: float</em>, <em class="sig-param">phi: float</em><span class="sig-paren">)</span> &#x2192; tuple<a class="reference internal" href="_modules/sc2qsr/spatial/quantitative.html#pol2cart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sc2qsr.spatial.quantitative.pol2cart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert polar coordinates to cartesian</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rho</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – distance of the point to the origin</p></li>
+<li><p><strong>phi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – angle of the point wrt. to the origin</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple containing the (x,y) coordinates of the point w.r.t. the origin</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2019, Douglas De Rizzo Meneghetti.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
